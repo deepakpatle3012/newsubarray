@@ -1,0 +1,31 @@
+question link  -: https://www.interviewbit.com/problems/max-non-negative-subarray/hints/
+solution -:
+public class Solution {
+    public int[] maxset(int[] A) {
+        LinkedList<Integer> result = new LinkedList<>();
+        LinkedList<Integer> resultTmp = new LinkedList<>();
+        long sum = 0;
+        long sumTmp = 0;
+        for (int i = 0; i < A.length; i++) {
+
+            if (A[i] >= 0) {
+                resultTmp.add(A[i]);
+                sumTmp += A[i];
+            } else if (resultTmp.size() > 0) {
+
+                if (sum < sumTmp || (sum == sumTmp && resultTmp.size() > result.size())) {
+                    sum = sumTmp;
+                    result = new LinkedList<>(resultTmp);
+                }
+
+                resultTmp.clear();
+                sumTmp = 0;
+            }
+        }
+
+        if (sum < sumTmp || (sum == sumTmp && resultTmp.size() > result.size()))
+            return resultTmp.stream().mapToInt(i -> i).toArray();
+
+        return result.stream().mapToInt(i -> i).toArray();
+    }
+}
